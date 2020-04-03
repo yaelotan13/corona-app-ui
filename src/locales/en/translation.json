@@ -1,0 +1,21 @@
+{
+    "corona hot map": "Corona Virus Heat Map",
+    "app description": "Help the world gain more information about the corona virus. Fill a quick medical survey and see the corona distribution around your area.",
+    "start survey": "START SURVEY",
+    "watch map": "WATCH MAP",
+    "about us": "About Us",
+    "about us description": "We are a group of six developers from Israel who learn together in Infinity Labs programming course. We decided to create this app to contribute to the community on this current tough time the whole world is going through due to the corona virus. Our goal is to help people gain more information about the way to virus is spreading, and by that hopefully contribute to the ongoing world battle.",
+    "if you have questions": "If you have any questions about this project or if you just what to say hey 👋, you are more then welcome to send us an email!",
+    "survey error": "Please fill the survey",
+    "confirmation error": "Please confirm this survey",
+    "survey intro": "Please indicate to which degree do you suffer from the following symptoms:",
+    "cough": "cough",
+    "shortness of breath": "shortness of breath",
+    "troubles breathing": "troubles breathing",
+    "pain in the chest": "pain in the chest",
+    "confusion": "confusion",
+    "blue lips": "blue lips",
+    "loss of smell": "loss of smell",
+    "loss of taste": "loss of taste",
+    "confirmed corona": "Have you been tested positive with COVID-19 (Coronavirus)?"
+}

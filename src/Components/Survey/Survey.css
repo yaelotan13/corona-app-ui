@@ -1,0 +1,13 @@
+.survey {
+  height: 100%;
+}
+.survey form {
+  width: 75%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=Survey.css.map */
