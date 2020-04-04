@@ -92,6 +92,7 @@ const Home = ({ t, history }) => {
                             <Typography className={classes.abouUs}>{t('app description')}</Typography>
                             <Box className={classes.buttonsContainer}>
                                 <Button 
+                                    data-cy="go-to-survey"
                                     color="primary" 
                                     variant="contained" 
                                     className={classes.startBut}
@@ -100,6 +101,7 @@ const Home = ({ t, history }) => {
                                     {t('start survey')}
                                 </Button>
                                 <Button 
+                                    data-cy="go-to-map"
                                     color="secondary" 
                                     variant="outlined" 
                                     className={classes.mapBut}
