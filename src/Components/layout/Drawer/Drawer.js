@@ -104,7 +104,7 @@ function getPathFromEnglish(str) {
 
 function getPath(str, lan) {
     return lan === 'English' ? getPathFromEnglish(str) : getPathFromHebrew(str);
- }
+}
 
 const SideDrawer = (props) => {
     const classes = useStyles();

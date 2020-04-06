@@ -37,3 +37,9 @@ export const resetFormSuccess = () => {
         type: actionTypes.RESET_FORM_SUCCESS
     }
 };
+
+export const formUnhuthorized = () => {
+    return {
+        type: actionTypes.UNAUTHORIZED
+    }
+};

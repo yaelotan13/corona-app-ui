@@ -28,5 +28,6 @@
     "confirm survey": "אני מאשר/ת שעניתי על השאלון בכנות",
     "send": "שלח",
     "fetching error": "אופס, משהו השתבש",
-    "submission success": "הטופס נשלח בהצלחה"
+    "submission success": "הטופס נשלח בהצלחה",
+    "submission failure": "מצטערים, נראה שכבר שלחת את הטופס בשעה האחרונה"
 }

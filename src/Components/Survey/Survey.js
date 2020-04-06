@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/actions';
 import { withNamespaces } from 'react-i18next';
-import { Typography, Box, CircularProgress } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useForm } from "../../hooks";
 import { CheckBox } from "./CheckBox";
@@ -17,6 +17,7 @@ import { SubmitButton } from "./SubmitButton";
 import { Checkmark } from 'react-checkmark';
 import Spinner from '../shared/Spinner/Spinner';
 import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
+import Crossmark from './Crossmark/Crossmark';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFormSuccess, onFormFailure, onChnageScreen, formSuccess, resetFormSuccess}) {
+function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFormSuccess, onFormFailure, onChnageScreen, formSuccess, resetFormSuccess, formUnhuthorized, unhothorized}) {
   const classes = useStyles();
   const QUESTIONS = getQuestions(t);
   const {
@@ -94,9 +95,13 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
         onFormSuccess();
       }
     } catch (error) {
-      onFormFailure();
       console.log(error);
       console.log(error.response);
+      if (error.response.status === 401) {
+        formUnhuthorized();
+      } else {
+        onFormFailure();
+      }
     }
   }
 
@@ -114,6 +119,21 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
       </Box>
     )
   }
+
+  const showFilureCheckmark = () => {
+    setTimeout(() => {
+      resetFormSuccess();
+      onChnageScreen('Map');
+      history.push('/map');
+    }, 2000);
+
+    return (
+      <Box>
+        <Crossmark />
+        <Typography className={classes.successContent}>{t('submission failure')}</Typography>
+      </Box>
+    )
+  }
   
   return (
     <Box>
@@ -127,6 +147,11 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
         formSuccess ?
         <Box className={classes.centerContainer}>
           {showSuccessCheckmark()}
+        </Box>
+        :
+        unhothorized ?
+        <Box className={classes.centerContainer}>
+          {showFilureCheckmark()}
         </Box>
         :
         <Box className={classes.container}>
@@ -178,6 +203,7 @@ const mapStateToProps = (state) => {
     loading: state.loading,
     hasFetchingError: state.hasFetchingError,
     formSuccess: state.formSuccess,
+    unhothorized: state.unhothorized
   }
 }
 
@@ -188,6 +214,7 @@ const mapDispatchToProps = (dispatch) => {
     onFormSuccess: () => dispatch(actions.submitFormSuccess()),
     onChnageScreen: (screen) => dispatch(actions.changeScreen(screen)),
     resetFormSuccess: () => dispatch(actions.resetFormSuccess()),
+    formUnhuthorized: () => dispatch(actions.formUnhuthorized()),
   }
 }
 

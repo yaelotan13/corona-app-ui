@@ -28,5 +28,6 @@
     "confirm survey": "I answer this survey honestly",
     "send": "SEND",
     "fetching error": "Ooops, Something went wrong",
-    "submission success": "Your survey was successfully submitted"
+    "submission success": "Your survey was successfully submitted",
+    "submission failure": "Sorry, it seems like you already submitted the survey in the last hour"
 }
