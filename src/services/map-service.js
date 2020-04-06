@@ -3,7 +3,6 @@ import {API_URL} from "../config";
 
 const _defaultRadius = 20;
 
-
 // pin colors
 const iconBase = 'http://maps.google.com/mapfiles/ms/icons/';
 const pinColors = {
@@ -24,3 +23,15 @@ export async function getPatientsLocations(location) {
         }
     )
 }
+
+export const getCurrentPosition = () => {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 3000,
+      maximumAge: 0
+    };
+  
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  };

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { initialState } from "../Components/Survey/surveyInitialState";
 
-export default function useForm (onSubmit) {
+export default function useForm (onSubmit, t) {
   const [ inputs, setInputs ] = useState(initialState);
+  const [ isConfirmed, setIsConfirmed ] = useState(false);
 
   function handleSliderChange (name, value) {
     setInputs({ ...inputs, [name]: value });
@@ -12,17 +13,13 @@ export default function useForm (onSubmit) {
     const { name, value } = event.target;
     setInputs({
       ...inputs,
-      [name]: (value === 'Yes')
+      [name]: (value === t('yes'))
     });
   }
 
   function handleConfirm (event) {
-    const { name, checked } = event.target;
-    console.log(`handle ${name}: ${checked}`)
-    setInputs({
-      ...inputs,
-      [name]: checked
-    });
+    const { checked } = event.target;
+    setIsConfirmed(checked);
   }
 
   function handleSubmit (event) {
@@ -32,6 +29,7 @@ export default function useForm (onSubmit) {
 
   return {
     inputs,
+    isConfirmed,
     handleSliderChange,
     handleCheckBoxChange,
     handleSubmit,

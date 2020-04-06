@@ -3,11 +3,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/styles';
 import {
     Toolbar,
-    Typography,
     IconButton,
     AppBar,
     Box,
-    Avatar,
 } from '@material-ui/core';
 
 import { withNamespaces } from 'react-i18next';
