@@ -1,9 +1,12 @@
 {
+    "home": "Home",
+    "about us": "About Us",
+    "map": "Map",
+    "survey": "Survey",
     "corona hot map": "Corona Virus Heat Map",
     "app description": "Help the world gain more information about the corona virus. Fill a quick survey to see a distribution of how people are feeling.",
     "start survey": "START SURVEY",
     "watch map": "WATCH MAP",
-    "about us": "About Us",
     "about us description": "We are a group of developers from Israel from Infinity Labs R&D. We have created this app as a contribution to the society during these challenging times. Our goal is to help people gain more information about the way the virus is spreading, and hopefully contribute to the ongoing battle.",
     "if you have questions": "If you have any questions about this project or if you just what to say hey 👋, you are more then welcome to send us an email!",
     "survey header": "Coronavirus Survey",
