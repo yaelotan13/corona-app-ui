@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import i18n from '../../../i18n';
 import { withNamespaces } from 'react-i18next';

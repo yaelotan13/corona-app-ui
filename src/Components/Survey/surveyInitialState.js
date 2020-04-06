@@ -9,5 +9,4 @@ export const initialState = {
   lossOfTaste: 0,
   confirmedCorona: false,
   temperature: 35,
-  confirm: false,
 };

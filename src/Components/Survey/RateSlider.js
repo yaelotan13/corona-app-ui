@@ -10,6 +10,10 @@ const useStyles = makeStyles({
 
 const marks = [
   {
+    value: 0,
+    label: '0',
+  },
+  {
     value: 1,
     label: '1',
   },
@@ -31,15 +35,15 @@ const marks = [
   },
 ];
 
-function valuetext(value) {
+function valuetext (value) {
   return `${value}`;
 }
 
-function valueLabelFormat(value) {
-  return marks.findIndex(mark => mark.value === value);
+function valueLabelFormat (value) {
+  return marks.findIndex(mark => mark.value === value) + 1;
 }
 
-export default function RateSlider({name, onChange}) {
+export default function RateSlider ({ name, onChange }) {
   const classes = useStyles();
 
   return (
@@ -55,7 +59,7 @@ export default function RateSlider({name, onChange}) {
         onChangeCommitted={(event, value) =>
           onChange(name, value)}
         name={name}
-        min={1}
+        min={0}
         max={5}
       />
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
-import { FormControlLabel, RadioGroup, FormLabel, Radio } from '@material-ui/core';
+import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
+import i18n from '../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   checkboxContainer: {
@@ -10,25 +11,30 @@ const useStyles = makeStyles((theme) => ({
   label: {
     marginLeft: 12,
   },
-  checkbox: {
-   
-  }
+  checkboxHebrew: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+  },
 }));
 
 export const CheckBox = ({name, options, selectedOptions, onChange}) => {
   const classes = useStyles();
-  console.log(selectedOptions);
+
   return (
       <div className={name !== 'confirmedCorona' ? classes.checkboxContainer : null}>
-        {options.map(option => 
-            <RadioGroup row aria-label="position" name={name}>
+        {options.map((option, i) =>
+            <RadioGroup key={i} row
+                        aria-label="position"
+                        name={name}
+                        className={i18n.language === 'he' ? classes.checkboxHebrew : null}
+            >
               <FormControlLabel
                 value={option}
                 control={<Radio color="primary" />}
                 label={option}
-                labelPlacement="end"
                 onChange={onChange}
                 checked={ selectedOptions.indexOf(option) > -1 }
+                labelPlacement={i18n.language === 'he' ? 'start' : 'end'}
               />
             </RadioGroup>
           )}

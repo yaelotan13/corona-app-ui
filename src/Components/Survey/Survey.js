@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/actions';
 import { withNamespaces } from 'react-i18next';
-import { Typography, Box, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Typography, Box, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useForm } from "../../hooks";
 import { CheckBox } from "./CheckBox";
 import RateSlider from "./RateSlider";
 import { Question } from "./Question";
-import { QUESTIONS } from "./questions";
+import getQuestions from './questions';
 import TemperatureSlider from "./TemperatureSlider";
 import { surveyService } from "../../services";
 import withMenu from '../../hoc/withMenu/withMenu';
+import { ConfirmSurvey } from "./ConfirmSurvey";
+import { SubmitButton } from "./SubmitButton";
+import { Checkmark } from 'react-checkmark';
+import Spinner from '../shared/Spinner/Spinner';
+import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    height: '100vh',
+    minHeight: '100vh',
+    margin: '0 0 8vh',
+    position: 'relative',
   },
   content: {
     padding: 30,
@@ -36,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
       width: '40%',
     },
     [theme.breakpoints.down('xs')]: {
-        width: '80%',
-        maxWidth: '100vw',
+      width: '80%',
+      maxWidth: '100vw',
     }
   },
   temp: {
@@ -52,110 +61,134 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
+    }
+  }, 
+  centerContainer: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  successContent: {
+    marginTop: '2vh',
   }
-  },
-  buttonContainer: {
-    width: '30%',
-    margin: 'auto',
-  },
 }));
 
-function Survey ({ history }) {
+function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFormSuccess, onFormFailure, onChnageScreen, formSuccess, resetFormSuccess}) {
   const classes = useStyles();
+  const QUESTIONS = getQuestions(t);
   const {
     inputs,
+    isConfirmed,
     handleSliderChange,
     handleCheckBoxChange,
     handleSubmit,
     handleConfirm
-  } = useForm(onSubmit);
-  const [ error, setError ] = useState(null);
-  console.log()
-  useEffect(() => {
-    setError(null); // reset errors
-  }, [ inputs ]);
+  } = useForm(onSubmit, t);
 
   async function onSubmit () {
-    if (!surveyService.isSurveyValid(inputs))
-      return setError('Please fill the survey.');
-
     try {
-      await surveyService.sendSurvey(inputs);
-      history.push('/map');
+      onFormSubmission();
+      const result = await surveyService.sendSurvey(inputs);
+      if (result.status === 200) {
+        onFormSuccess();
+      }
     } catch (error) {
-      console.log(error)
-      console.log(error.response)
+      onFormFailure();
+      console.log(error);
+      console.log(error.response);
     }
   }
 
-  function renderError () {
-    window.scrollTo(0, 0);
-    return (
-      <p style={{ color: 'red' }}>{error}</p>
-    );
-  }
+  const showSuccessCheckmark = () => {
+    setTimeout(() => {
+      resetFormSuccess();
+      onChnageScreen('Map');
+      history.push('/map');
+    }, 2000);
 
+    return (
+      <Box>
+        <Checkmark size='large'/>
+        <Typography className={classes.successContent}>{t('submission success')}</Typography>
+      </Box>
+    )
+  }
+  
   return (
-    <Box className={classes.container}>
-      <Box className={classes.content}>
-        {error ? renderError() : null}
-        <Typography className={classes.mainHeadline} variant="h3">Coronavirus Survey</Typography>
-        <Typography className={classes.headline} variant="h5">Please indicate to which degree do you suffer from the following symptoms:</Typography>
-        <form className={classes.form}>
-          {QUESTIONS.map(({ body, type, name }) =>
-            <Box>
-              <Question key={name} type={type} body={body} name={name}>
-                {
-                  type === 'rate' ?
-                  <RateSlider name={name} onChange={handleSliderChange}/> 
-                  :
-                  <CheckBox name={name}
-                            onChange={handleCheckBoxChange}
-                            options={[ 'No', 'Yes' ]}
-                            selectedOptions={[ (inputs[name] ? 'Yes' : 'No') ]}
-                  />
-                }
-              </Question>
+    <Box>
+      {
+        hasFetchingError ?
+        <ErrorMessage t={t} />
+        :
+        loading ?
+        <Spinner />
+        :
+        formSuccess ?
+        <Box className={classes.centerContainer}>
+          {showSuccessCheckmark()}
+        </Box>
+        :
+        <Box className={classes.container}>
+          <Box className={classes.content}>
+            <Typography className={classes.mainHeadline} variant="h3">
+              {t('survey header')}
+            </Typography>
+            <Typography className={classes.headline} variant="h5">
+              {t('survey intro')}
+            </Typography>
+            <form className={classes.form}>
+              {QUESTIONS.map(({ body, type, name }) =>
+                <Box key={name}>
+                <Question type={type} body={body} name={name}>
+                  {
+                    type === 'rate' ?
+                      <RateSlider name={name} onChange={handleSliderChange}/>
+                      :
+                      <CheckBox name={name}
+                                onChange={handleCheckBoxChange}
+                                options={[ t('no'), t('yes') ]}
+                                selectedOptions={[ (inputs[name] ? t('yes') : t('no')) ]}
+                      />
+                  }
+                </Question>
             </Box>
           )}
           <Box className={classes.temp}>
-            <Question body="Your current temperature:">
+            <Question body={t('temp')}>
               <TemperatureSlider name="temperature"
-                                onChange={handleSliderChange}
+                                 onChange={handleSliderChange}
               />
             </Question>
-
           </Box>
           <Box className={classes.submitArea}>
-            <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={inputs['confirm'] ? true : false}
-                    onChange={handleConfirm}
-                    name="confirm"
-                    color="secondary"
-                  />
-                }
-                label="I answer this survey honestly"
-                />
-            <box className={classes.buttonContainer}>
-              <Button 
-                type="submit" 
-                onClick={handleSubmit} 
-                color="primary" 
-                variant="contained" 
-                className={classes.submit}
-                size="large"
-                disabled={!inputs['confirm'] ? true : false}
-              >
-                SEND
-              </Button>
-            </box>
+            <ConfirmSurvey isConfirmed={isConfirmed} handleConfirm={handleConfirm} t={t}/>
+            <SubmitButton isConfirmed={isConfirmed} handleSubmit={handleSubmit} t={t}/>
           </Box>
         </form>
       </Box>
     </Box>
+      }
+    </Box>
   );
 }
 
-export default withNamespaces()(withMenu(Survey))
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+    hasFetchingError: state.hasFetchingError,
+    formSuccess: state.formSuccess,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFormSubmission: () => dispatch(actions.initFormSubmission()),
+    onFormFailure: () => dispatch(actions.submitFormFailure()),
+    onFormSuccess: () => dispatch(actions.submitFormSuccess()),
+    onChnageScreen: (screen) => dispatch(actions.changeScreen(screen)),
+    resetFormSuccess: () => dispatch(actions.resetFormSuccess()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(withMenu(Survey)))
