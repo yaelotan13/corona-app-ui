@@ -29,5 +29,8 @@
     "send": "SEND",
     "fetching error": "Ooops, Something went wrong",
     "submission success": "Your survey was successfully submitted",
-    "submission failure": "Sorry, it seems like you already submitted the survey in the last hour"
+    "submission failure": "Sorry, it seems like you already submitted the survey in the last hour",
+    "404 header": "Ooops!",
+    "404 message": "We can't seem to find the page you're looking for",
+    "return": "RETURN"
 }
