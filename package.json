@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "crypto-js": "^4.0.0",
-    "deep-equal": "^2.0.1",
+    "deep-equal": "^2.0.2",
     "device-uuid": "^1.0.4",
     "history": "latest",
     "i18next": "^19.3.4",

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {API_URL} from "../config";
 
-const _defaultRadius = 20;
+const _defaultRadius = 50;
 
 // pin colors
 const iconBase = 'http://maps.google.com/mapfiles/ms/icons/';
@@ -16,12 +16,23 @@ export function getPinColor(healthStatus) {
 }
 
 export async function getPatientsLocations(location) {
-    return await axios.get(`${API_URL}/patients`, {
-            location,
-            radius: _defaultRadius,
-            withCredentials: true
+    const params = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        radius: _defaultRadius,
+    };
+    const options = {
+        withCredentials: true
+    };
+
+    console.log('sending data');
+    return await axios.get(`${API_URL}/patients`, { 
+        params: {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            radius: _defaultRadius, 
         }
-    )
+     });
 }
 
 export const getCurrentPosition = () => {
