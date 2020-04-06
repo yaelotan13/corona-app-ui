@@ -72,18 +72,43 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function getPath(str) {
-    var splitStr = str.toLowerCase().split(' ');
+function getPathFromHebrew(str) {
+    switch (str) {
+        case 'בית' : {
+            return '/home';
+        } 
+        case 'קצת עלינו': {
+            return 'about-us';
+        }
+        case 'מפה': {
+            return '/map';
+        }
+        case 'שאלון': {
+            return '/survey';
+        }
+        default: {
+            return '/home'
+        }
+    }
+}
+
+function getPathFromEnglish(str) {
+    let splitStr = str.toLowerCase().split(' ');
+    
     for (let i = 0; i < splitStr.length; i++) {
         splitStr[i] = splitStr[i].charAt(0).toLowerCase() + splitStr[i].substring(1);     
     }
 
     return '/'.concat(splitStr.join('-')); 
+}
+
+function getPath(str, lan) {
+    return lan === 'English' ? getPathFromEnglish(str) : getPathFromHebrew(str);
  }
 
 const SideDrawer = (props) => {
     const classes = useStyles();
-    const listItems = ['Home', 'About Us', 'Map', 'Survey'];
+    const listItems = [props.t('home'), props.t('about us'), props.t('map'), props.t('survey')];
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -91,6 +116,7 @@ const SideDrawer = (props) => {
         props.onLanChanges(language);
     }
     console.log(`cur screen: ${props.screen}`)
+
     return (
         <Box> 
             {
@@ -103,7 +129,7 @@ const SideDrawer = (props) => {
                             </ListItem>
                             {
                                 listItems.map((text, index) => (
-                                    <Link to={getPath(text)} className={classes.link}>
+                                    <Link to={getPath(text, props.lan)} className={classes.link}>
                                         <ListItem 
                                             button 
                                             key={text} 
