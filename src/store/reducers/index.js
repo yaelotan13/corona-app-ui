@@ -6,6 +6,7 @@ const initailStata = {
     loading: false,
     hasFetchingError: false,
     formSuccess: false,
+    unhothorized: false,
 };
 
 const reducer = (state = initailStata, action) => {
@@ -28,6 +29,7 @@ const reducer = (state = initailStata, action) => {
                 loading: true,
                 hasFetchingError: false,
                 formSuccess: false,
+                unhothorized: false,
             }
         }
         case actionTypes.SUBMIT_FORM_SUCCESS: {
@@ -36,6 +38,7 @@ const reducer = (state = initailStata, action) => {
                 loading: false,
                 hasFetchingError: false,
                 formSuccess: true,
+                unhothorized: false,
             }
         }
         case actionTypes.SUBMIT_FORM_FAILURE: {
@@ -44,6 +47,7 @@ const reducer = (state = initailStata, action) => {
                 loading: false,
                 hasFetchingError: true,
                 formSuccess: false,
+                unhothorized: false,
             }
         }
         case actionTypes.RESET_FORM_SUCCESS: {
@@ -52,6 +56,16 @@ const reducer = (state = initailStata, action) => {
                 loading: false,
                 hasFetchingError: false,
                 formSuccess: false,
+                unhothorized: false,
+            }
+        }
+        case actionTypes.UNAUTHORIZED: {
+            return {
+                ...state,
+                loading: false,
+                hasFetchingError: false,
+                formSuccess: false,
+                unhothorized: true,
             }
         }
         default: {
