@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
     GoogleMap,
     withScriptjs,
@@ -24,112 +24,111 @@ const useStyles = makeStyles({
     }
 });
 
-class Map extends Component { 
-    state = initialState;
-    _errorMsg = 'Oops! Something Went Wrong';
+const Map = (props, t) => { 
+    const classes = useStyles();
+    const [ userLocation, setUserLocation ] = useState({
+        latitude: 32.0965791,
+        longitude: 34.7831877
+    })
 
-    componentDidMount() {
-        this.setState({loading: true});
+    const [ loading, setLoading ] = useState(false);
+    const [ hasFetchingError, setHasFetchingError ] = useState(false);
+    const [ pateints, setPatients ] = useState([]);
 
+    useEffect(() => {
+        setLoading(true);
         navigator.geolocation.getCurrentPosition(
             async position => {
                 const {latitude, longitude} = position.coords;
                 const location = {longitude, latitude};
-
                 try {
                     const response = await mapService.getPatientsLocations(location);
                     const patients = response.data.filter(patient => {
                         return !(deepEqual(patient.location, location));
                     });
-                    this.setState({patients})
-                } catch (err) {
-                    console.log(err)
+                    setPatients(patients);
+
+                } catch (error) {
+                    console.log(error);
+                    setHasFetchingError(true);
                 }
 
-                this.setState({
-                    location: {
-                        lat: latitude,
-                        lng: longitude
-                    },
-                    loading: false
-                });
+                setUserLocation({
+                    lat: latitude,
+                    lng: longitude
+                })
+                setLoading(false);
             },
-            () => {
-                this.setState({loading: false});
+            (error) => {
+                console.log(error);
+                setLoading(false);
+                setHasFetchingError(true);
+            }, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
             })
-    }   
+    }, []);  
 
-    render() {
-        console.log(this.state.location);
-        console.log('PATIENTS');
-        console.log(this.state.patients);
-        console.log(`loading? ${this.state.loading}`)
-        return (
-            <Box>
-                {   
-                    this.state.loading ? 
-                    <Spinner style={{
-                        position: 'relative',
-                        top: '-100vh',
-                    }} />
-                    :
-                    this.state.error ? <Typography>{this._errorMsg}</Typography>
-                    :
-                    <GoogleMap
-                        zoom={10}
-                        defaultZoom={10}
-                        defaultCenter={this.state.location}
-                    >
-
+    return (
+        <Box>
+            {   
+                loading ? 
+                <Spinner className={classes.spinner} />
+                :
+                hasFetchingError ? 
+                <ErrorMessage t={t}/>
+                :
+                <GoogleMap
+                    zoom={10}
+                    defaultZoom={10}
+                    defaultCenter={userLocation}
+                >
                     <Marker
-                        position={this.state.location}
+                        position={userLocation}
                         icon={{
                             url: 'http://maps.google.com/mapfiles/kml/shapes/man.png'
                         }}
                     />
-
-                     {this.state.patients.map((patient) =>
+                    {
+                        pateints.map((patient) =>
                         <Marker
                             key={patient.id}
                             position={{
                                 lat: patient.location.lat,
                                 lng: patient.location.lng
                             }}
-
                             icon={{
                                 url: mapService.getPinColor(patient.status)
                             }}
                         />
                     )} 
                 </GoogleMap>
-                }
-            </Box>
+            }
+        </Box>
         )
     }
-}
 
-// export default Map
 const WrappedMap = withScriptjs(withGoogleMap(Map));
 const style = {
   width: '100vw',
   height: '100vh'
 };
-console.log('in WrappedMap');
-console.log(Map);
-const MapContainer = () =>
-  <div className="map" style={style}>
-  {
-      <WrappedMap
-      googleMapURL={
-          `https://maps.googleapis.com/maps/api/js?v=3.40&key=${GOOGLE_API_KEY}`
-      }
-  
-      loadingElement={<Spinner />}
-      containerElement={<div style={{height: '100%'}}/>}
-      mapElement={<div style={{height: '100%'}}/>}
-      />
-  }
-  </div>
-;
+
+const MapContainer = () => (
+  <Box style={style}>
+    {
+        <WrappedMap
+            googleMapURL={
+                `https://maps.googleapis.com/maps/api/js?v=3.40&key=${GOOGLE_API_KEY}`
+            }
+    
+            loadingElement={<Spinner />}
+            containerElement={<Box style={{height: '100%'}}/>}
+            mapElement={<Box style={{height: '100%'}}/>}
+        />
+    }
+  </Box>
+);
 
 export default withNamespaces()(withMenu(MapContainer))
