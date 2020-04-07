@@ -2,8 +2,7 @@ import React from 'react';
 import i18n from 'i18next';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
-import { makeStyles, useTheme } from '@material-ui/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles } from '@material-ui/styles';
 import {
     Box,
     Avatar,
@@ -15,6 +14,8 @@ import {
 import * as actions from '../../../store/actions/actions';
 import englandFlag from '../../../assets/images/england.png';
 import israelFlag from '../../../assets/images/israel.jpg';
+import russiaFlag from '../../../assets/images/russia-flag.png';
+import portogalFlag from '../../../assets/images/portugal-flag.jpg';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -28,21 +29,23 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: '30vw',
+        }
     },
     select: {
         color: 'white',
+        textAlign: 'center',
         '&::before': {
             borderBottom: 'none',
             content: '" "'
-        },
-        '&:hover': {
-            transition: 'none',
         },
         '& svg': {
             color: 'white',
         }
     },
     languageFlag: {
+        position: 'static',
         [theme.breakpoints.between('sm', 'xl')]: {
             height: '3vh',
             width: '2vw',
@@ -61,34 +64,36 @@ const useStyles = makeStyles((theme) => ({
 
 const LanguageFlag = (props) => {
     const classes = useStyles();
-    const theme = useTheme();
-    const aboveXsScreen = useMediaQuery(theme.breakpoints.between('sm', 'xl'));
 
     const handleChange = (event) => {
         props.onLanChanged(event.target.value);
-        
-        const shortLan = event.target.value === 'English' ? 'en' : 'he';
-        changeLanguage(shortLan);
-      };
+        i18n.changeLanguage(event.target.value);
+    };
 
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
+    const getFlag = (lan) => {
+        switch (lan) {
+            case 'English':
+                return englandFlag;
+            case 'Hebrew': 
+                return israelFlag;
+            case 'Portuguese':
+                return portogalFlag;
+            case 'Russian':
+                return russiaFlag;
+        }
     }
 
     return (
         <Box className={classes.flagsContainers}>
-            {
-                aboveXsScreen ?
-                <FormControl className={classes.formControl}>
-                    <Select value={props.lan} onChange={handleChange} displayEmpty className={classes.select}>
-                        <MenuItem value="English">English</MenuItem>
-                        <MenuItem value="עברית">עברית</MenuItem>
-                    </Select>
-                </FormControl>
-                :
-                null
-            }
-            <Avatar src={props.lan === 'English' ? englandFlag : israelFlag} className={classes.languageFlag}></Avatar>
+            <FormControl className={classes.formControl}>
+                <Select value={props.lan} onChange={handleChange} displayEmpty className={classes.select}>
+                    <MenuItem value="English">English</MenuItem>
+                    <MenuItem value="Hebrew">עברית</MenuItem>
+                    <MenuItem value="Portuguese">Portuguesa</MenuItem>
+                    <MenuItem value="Russian">русский</MenuItem>
+                </Select>
+            </FormControl>
+            <Avatar src={getFlag(props.lan)} className={classes.languageFlag}></Avatar>
         </Box>
     );
 };

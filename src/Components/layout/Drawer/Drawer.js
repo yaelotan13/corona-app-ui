@@ -20,9 +20,6 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import RoomIcon from '@material-ui/icons/Room';
 import * as actions from '../../../store/actions/actions';
 
-import englandFlag from '../../../assets/images/england.png';
-import israelFlag from '../../../assets/images/israel.jpg';
-
 const useStyles = makeStyles((theme) => ({
     list: {
       width: 250,
@@ -47,25 +44,6 @@ const useStyles = makeStyles((theme) => ({
     },
     item: {
         color: 'orange',
-    },
-    flagsContainers: {
-        marginTop: '10vh',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '5vh',
-        justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
-        cursor: 'pointer',
-    },
-    flag: {
-        [theme.breakpoints.between('sm', 'xl')]: {
-            height: '3vh',
-            width: '2vw',
-          },
-        [theme.breakpoints.down('xs')]: {
-            height: '3vh',
-            width: '5vw',
-        }
     },
     link: {
         textDecoration: 'none',
@@ -110,13 +88,6 @@ const SideDrawer = (props) => {
     const classes = useStyles();
     const listItems = [props.t('home'), props.t('about us'), props.t('map'), props.t('survey')];
 
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-        const language = lng === 'en' ? 'English' : 'Hebrew';
-        props.onLanChanges(language);
-    }
-    console.log(`cur screen: ${props.screen}`)
-
     return (
         <Box> 
             {
@@ -153,20 +124,6 @@ const SideDrawer = (props) => {
                                     </Link>
                                 ))
                             }
-                            <Box className={classes.flagsContainers}>
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar src={englandFlag} className={classes.flag} onClick={() => changeLanguage('en')} />
-                                    </ListItemAvatar>
-                                    <ListItemText className={classes.flag} onClick={() => changeLanguage('en')} primary="English" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar src={israelFlag} className={classes.flag} onClick={() => changeLanguage('he')} />
-                                    </ListItemAvatar>
-                                    <ListItemText className={classes.flag} onClick={() => changeLanguage('he')} primary="עברית" />
-                                </ListItem>
-                            </Box>
                         </List>
                     </Box>
                 </Drawer>

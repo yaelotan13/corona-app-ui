@@ -25,11 +25,11 @@ export const Question = ({ body, children, type, name }) => {
   const questionStyle = [ classes.question ];
 
   if (name === 'blueLips') questionStyle.push(classes.blueLipsQuestion);
-  if (i18n.language === 'he') questionStyle.push(classes.hebrewContainer);
+  if (i18n.language === 'Hebrew') questionStyle.push(classes.hebrewContainer);
 
   return (
     <div className={questionStyle.join(' ')}>
-      <p className={i18n.language === 'he' ? classes.hebrewText : null}>{body}</p>
+      <p className={i18n.language === 'Hebrew' ? classes.hebrewText : null}>{body}</p>
       {children}
     </div>
   );
