@@ -13,33 +13,3 @@ export const changeLang = (lan) => {
         lan: lan
     };
 };
-
-export const initFormSubmission = () => {
-    return {
-        type: actionTypes.LOADING
-    }
-};
-
-export const submitFormSuccess = () => {
-    return {
-        type: actionTypes.SUBMIT_FORM_SUCCESS
-    }
-};
-
-export const submitFormFailure = () => {
-    return {
-        type: actionTypes.SUBMIT_FORM_FAILURE
-    }
-};
-
-export const resetFormSuccess = () => {
-    return {
-        type: actionTypes.RESET_FORM_SUCCESS
-    }
-};
-
-export const formUnhuthorized = () => {
-    return {
-        type: actionTypes.UNAUTHORIZED
-    }
-};

@@ -1,41 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/actions';
 import { withNamespaces } from 'react-i18next';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useForm } from "../../hooks";
-import { CheckBox } from "./CheckBox";
-import RateSlider from "./RateSlider";
-import { Question } from "./Question";
-import getQuestions from './questions';
-import TemperatureSlider from "./TemperatureSlider";
 import { surveyService } from "../../services";
 import withMenu from '../../hoc/withMenu/withMenu';
-import { ConfirmSurvey } from "./ConfirmSurvey";
-import { SubmitButton } from "./SubmitButton";
 import { Checkmark } from 'react-checkmark';
 import Spinner from '../shared/Spinner/Spinner';
 import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
 import Crossmark from './Crossmark/Crossmark';
+import Questions from './Questions/Questions';
+import Submit from './Submit/Submit';
+import Header from './Header/Header';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: '100vh',
     margin: '0 0 8vh',
     position: 'relative',
-  },
-  content: {
     padding: 30,
     paddingTop: 100,
-  },
-  mainHeadline: {
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  headline: {
-    textAlign: 'center',
-    marginBottom: 30,
   },
   form: {
     height: '100%',
@@ -50,20 +36,6 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: '100vw',
     }
   },
-  temp: {
-    marginTop: 24
-  },
-  submitArea: {
-    textAlign: 'center',
-    marginTop: 40,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    }
-  }, 
   centerContainer: {
     height: '100vh',
     display: 'flex',
@@ -75,9 +47,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFormSuccess, onFormFailure, onChnageScreen, formSuccess, resetFormSuccess, formUnhuthorized, unhothorized}) {
+function Survey ({ history, t, onChnageScreen }) {
   const classes = useStyles();
-  const QUESTIONS = getQuestions(t);
   const {
     inputs,
     isConfirmed,
@@ -86,28 +57,35 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
     handleSubmit,
     handleConfirm
   } = useForm(onSubmit, t);
+  const [ loading, setLoading ] = useState(false);
+  const [ hasFetchingError, setHasFetchingError ] = useState(false);
+  const [ formSuccess, setFormSuccess ] = useState(false);
+  const [ unhothorized, setUnhothorized ] = useState(false);
 
   async function onSubmit () {
     try {
-      onFormSubmission();
+      setLoading(true);
       const result = await surveyService.sendSurvey(inputs);
       if (result.status === 200) {
-        onFormSuccess();
+        setLoading(false);
+        setFormSuccess(true);
       }
     } catch (error) {
       console.log(error);
       console.log(error.response);
       if (error.response.status === 401) {
-        formUnhuthorized();
+        setLoading(false);
+        setUnhothorized(true);
       } else {
-        onFormFailure();
+        setLoading(false);
+        setHasFetchingError(true);
       }
     }
   }
 
   const showSuccessCheckmark = () => {
     setTimeout(() => {
-      resetFormSuccess();
+      setFormSuccess(true);
       onChnageScreen('Map');
       history.push('/map');
     }, 2000);
@@ -122,7 +100,7 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
 
   const showFilureCheckmark = () => {
     setTimeout(() => {
-      resetFormSuccess();
+      setFormSuccess(true);
       onChnageScreen('Map');
       history.push('/map');
     }, 2000);
@@ -155,67 +133,21 @@ function Survey ({ history, t, loading, hasFetchingError, onFormSubmission, onFo
         </Box>
         :
         <Box className={classes.container}>
-          <Box className={classes.content}>
-            <Typography className={classes.mainHeadline} variant="h3">
-              {t('survey header')}
-            </Typography>
-            <Typography className={classes.headline} variant="h5">
-              {t('survey intro')}
-            </Typography>
-            <form className={classes.form}>
-              {QUESTIONS.map(({ body, type, name }) =>
-                <Box key={name}>
-                <Question type={type} body={body} name={name}>
-                  {
-                    type === 'rate' ?
-                      <RateSlider name={name} onChange={handleSliderChange}/>
-                      :
-                      <CheckBox name={name}
-                                onChange={handleCheckBoxChange}
-                                options={[ t('no'), t('yes') ]}
-                                selectedOptions={[ (inputs[name] ? t('yes') : t('no')) ]}
-                      />
-                  }
-                </Question>
-            </Box>
-          )}
-          <Box className={classes.temp}>
-            <Question body={t('temp')}>
-              <TemperatureSlider name="temperature"
-                                 onChange={handleSliderChange}
-              />
-            </Question>
-          </Box>
-          <Box className={classes.submitArea}>
-            <ConfirmSurvey isConfirmed={isConfirmed} handleConfirm={handleConfirm} t={t}/>
-            <SubmitButton isConfirmed={isConfirmed} handleSubmit={handleSubmit} t={t}/>
-          </Box>
-        </form>
-      </Box>
-    </Box>
+          <Header t={t} />
+          <form className={classes.form}>
+            <Questions inputs={inputs} handleSliderChange={handleSliderChange} handleCheckBoxChange={handleCheckBoxChange}/>
+            <Submit isConfirmed={isConfirmed} handleConfirm={handleConfirm} t={t} handleSubmit={handleSubmit}/>
+          </form>
+        </Box>
       }
     </Box>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading,
-    hasFetchingError: state.hasFetchingError,
-    formSuccess: state.formSuccess,
-    unhothorized: state.unhothorized
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFormSubmission: () => dispatch(actions.initFormSubmission()),
-    onFormFailure: () => dispatch(actions.submitFormFailure()),
-    onFormSuccess: () => dispatch(actions.submitFormSuccess()),
     onChnageScreen: (screen) => dispatch(actions.changeScreen(screen)),
-    resetFormSuccess: () => dispatch(actions.resetFormSuccess()),
-    formUnhuthorized: () => dispatch(actions.formUnhuthorized()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(withMenu(Survey)))
+export default connect(null, mapDispatchToProps)(withNamespaces()(withMenu(Survey)))

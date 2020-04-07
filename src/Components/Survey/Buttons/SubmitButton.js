@@ -29,3 +29,5 @@ export function SubmitButton ({ handleSubmit, isConfirmed, t }) {
     </Box>
   );
 }
+
+export default SubmitButton;
