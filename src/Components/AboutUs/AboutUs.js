@@ -71,6 +71,9 @@ const useStyle = makeStyles((theme) => ({
     emailContainer: {
         marginTop: '2vh',
     },
+    icon: {
+        margin: 0,
+    },
     emailAddress: {
         display: 'flex',
         alignItems: 'center',
@@ -98,8 +101,8 @@ const AboutUs = ({ t }) => {
                     <Typography className={classes.contactUs}>{t('if you have questions')}</Typography>
                     <Box className={classes.emailContainer}>
                         <Typography className={classes.emailAddress}>
-                        <MailOutlineIcon /> 
-                            - email@email.com
+                        <MailOutlineIcon className={classes.icon}/> 
+                            - yaelotan19@email.com
                         </Typography>
                     </Box>
                 </Box>
