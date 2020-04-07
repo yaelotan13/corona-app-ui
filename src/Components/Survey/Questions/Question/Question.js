@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
-import i18n from '../../i18n';
+import i18n from '../../../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   blueLipsQuestion: {
@@ -34,3 +34,5 @@ export const Question = ({ body, children, type, name }) => {
     </div>
   );
 };
+
+export default Question;

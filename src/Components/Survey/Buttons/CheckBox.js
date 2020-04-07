@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
 import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
-import i18n from '../../i18n';
+import i18n from '../../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   checkboxContainer: {
@@ -41,3 +41,5 @@ export const CheckBox = ({name, options, selectedOptions, onChange}) => {
       </div>
   )
 };
+
+export default CheckBox;
