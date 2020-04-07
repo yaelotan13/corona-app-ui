@@ -26,7 +26,7 @@ export const CheckBox = ({name, options, selectedOptions, onChange}) => {
             <RadioGroup key={i} row
                         aria-label="position"
                         name={name}
-                        className={i18n.language === 'he' ? classes.checkboxHebrew : null}
+                        className={i18n.language === 'Hebrew' ? classes.checkboxHebrew : null}
             >
               <FormControlLabel
                 value={option}
@@ -34,7 +34,7 @@ export const CheckBox = ({name, options, selectedOptions, onChange}) => {
                 label={option}
                 onChange={onChange}
                 checked={ selectedOptions.indexOf(option) > -1 }
-                labelPlacement={i18n.language === 'he' ? 'start' : 'end'}
+                labelPlacement={i18n.language === 'Hebrew' ? 'start' : 'end'}
               />
             </RadioGroup>
           )}

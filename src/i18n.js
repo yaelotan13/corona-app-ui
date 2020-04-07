@@ -2,16 +2,23 @@ import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
 
-import translationEN from './locales/en/translation.json';
-import translationHE from './locales/he/translation.json';
+import translationEN from './locales/english/translation.json';
+import translationHE from './locales/hebrew/translation.json';
+import translationRU from './locales/russian/translation.json';
+import translationPO from './locales/portuguese/translation.json';
 
-// the translations
 const resources = {
-  en: {
+  English: {
     translation: translationEN
   },
-  he: {
+  Hebrew: {
     translation: translationHE
+  },
+  Russian: {
+    translation: translationRU
+  },
+  Portuguese: {
+    translation: translationPO
   }
 };
 
@@ -20,9 +27,8 @@ i18n
   .use(reactI18nextModule) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: "en",
-    fallbackLng: "en",
-
+    lng: "English",
+    fallbackLng: "English",
     keySeparator: false, // we do not use keys in form messages.welcome
 
     interpolation: {
