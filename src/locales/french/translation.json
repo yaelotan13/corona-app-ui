@@ -28,6 +28,8 @@
     "temp": "Votre temperature corporelle actuelle:",
     "confirm survey": "J'ai répondu honnêtement à cette enquête",
     "send": "ENVOYER",
-    "fetching error": "Ooops, quelque chose ne s'est pas passé comme prévu",
-    "submission success": "Votre formulaire a été envoyé avec succès !"
+    "fetching error": "Ooops! quelque chose ne s'est pas passé comme prévu",
+    "fetching error content": "ce n'est pas toi, c'est nous ..\nNotre équipe travaille pour résoudre ce problème, veuillez réessayer plus tard.",
+    "submission success": "Votre formulaire a été envoyé avec succès !",
+    "go home": "revenir"
 }

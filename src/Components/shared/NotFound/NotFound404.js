@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/styles';
 import { withNamespaces } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 
-import withMenu from '../../hoc/withMenu/withMenu';
-import img from '../../assets/images/404.jpg';
+import withMenu from '../../../hoc/withMenu/withMenu';
+import img from '../../../assets/images/404.jpg';
 
 const useStyles = makeStyles((theme) => ({
   container: {

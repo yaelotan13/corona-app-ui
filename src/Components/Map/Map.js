@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/styles';
 import withMenu from '../../hoc/withMenu/withMenu';
 import { GOOGLE_API_KEY } from "../../config";
 import { mapService } from '../../services'
-import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
+import ServerError from '../shared/ServerError/ServerError';
 import Spinner from '../shared/Spinner/Spinner';
 
 
@@ -79,7 +79,7 @@ const Map = ({ t }) => {
                 <Spinner className={classes.spinner} />
                 :
                 hasFetchingError ? 
-                <ErrorMessage t={t}/>
+                <ServerError t={t}/>
                 :
                 <GoogleMap
                     zoom={10}
