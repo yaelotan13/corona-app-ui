@@ -89,7 +89,7 @@ const SideDrawer = (props) => {
                             </ListItem>
                             {
                                 listItems.map((text, index) => (
-                                    <Link to={getPath(text, props.lan)} className={classes.link}>
+                                    <Link to={getPath(text, props.t)} className={classes.link}>
                                         <ListItem 
                                             button 
                                             key={text} 

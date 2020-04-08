@@ -1,8 +1,9 @@
 import axios from "axios";
-import { API_URL, CRYPTO_KEY } from "../config"
 import { v4 } from "uuid";
 import { DeviceUUID } from "device-uuid";
 import CryptoJS from "crypto-js";
+
+import { API_URL, CRYPTO_KEY } from "../config"
 import { getCurrentPosition } from './map-service';
 
 export async function sendSurvey (surveyInputs) {
@@ -38,6 +39,7 @@ export async function sendSurvey (surveyInputs) {
 function generateToken () {
   const requestUid = v4();
   const deviceUid = new DeviceUUID().get();
+  localStorage.setItem('id', deviceUid);
   const token = [ requestUid, deviceUid, 'valid' ].join('.');
   const encryptedToken = CryptoJS.AES.encrypt(token, CRYPTO_KEY).toString();
 
@@ -49,14 +51,3 @@ const defaultLocation = {
   latitude: '0'
 };
 
-// const getCurrentPosition = () => {
-//   const options = {
-//     enableHighAccuracy: true,
-//     timeout: 3000,
-//     maximumAge: 0
-//   };
-
-//   return new Promise((resolve, reject) => {
-//     navigator.geolocation.getCurrentPosition(resolve, reject, options);
-//   });
-// };

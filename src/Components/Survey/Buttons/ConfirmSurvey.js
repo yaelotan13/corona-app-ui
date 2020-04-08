@@ -3,7 +3,7 @@ import React from "react";
 
 export const ConfirmSurvey = ({ isConfirmed, handleConfirm, t, leftToRight }) =>
   <FormControlLabel
-  labelPlacement={leftToRight ? 'end' : 'start'}
+  labelPlacement={leftToRight ? 'start' : 'end'}
     control={
       <Checkbox
         checked={isConfirmed}

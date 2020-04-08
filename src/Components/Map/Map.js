@@ -6,16 +6,15 @@ import {
     Marker
 } from "react-google-maps";
 import { withNamespaces } from 'react-i18next';
+import { Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
 import withMenu from '../../hoc/withMenu/withMenu';
 import { GOOGLE_API_KEY } from "../../config";
 import { mapService } from '../../services'
-import initialState from './initialState';
-import { Typography, Box } from '@material-ui/core';
-import { getCurrentPosition } from '../../services/map-service';
 import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
 import Spinner from '../shared/Spinner/Spinner';
-import { makeStyles } from '@material-ui/styles';
-import deepEqual from 'deep-equal';
+
 
 const useStyles = makeStyles({
     spinner: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Map = (props, t) => { 
+const Map = ({ t }) => { 
     const classes = useStyles();
     const [ userLocation, setUserLocation ] = useState({
         latitude: 32.0965791,
@@ -43,9 +42,12 @@ const Map = (props, t) => {
                 const location = {longitude, latitude};
                 try {
                     const response = await mapService.getPatientsLocations(location);
-                    const patients = response.data.filter(patient => {
-                        return !(deepEqual(patient.location, location));
-                    });
+                    let patients = response.data;
+                    const userId = localStorage.getItem('id');
+                    if (userId) {
+                        patients = response.data.filter(patient => patient.id !== userId)
+                    }
+                    
                     setPatients(patients);
 
                 } catch (error) {
