@@ -4,17 +4,17 @@ import * as actions from '../../store/actions/actions';
 import { withNamespaces } from 'react-i18next';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Checkmark } from 'react-checkmark';
+
 import { useForm } from "../../hooks";
 import { surveyService } from "../../services";
 import withMenu from '../../hoc/withMenu/withMenu';
-import { Checkmark } from 'react-checkmark';
 import Spinner from '../shared/Spinner/Spinner';
 import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
 import Crossmark from './Crossmark/Crossmark';
 import Questions from './Questions/Questions';
 import Submit from './Submit/Submit';
 import Header from './Header/Header';
-import { props } from "bluebird";
 
 const useStyles = makeStyles((theme) => ({
   container: {
