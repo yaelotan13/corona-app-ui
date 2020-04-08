@@ -50,38 +50,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function getPathFromHebrew(str) {
+function getPath (str, t) {
     switch (str) {
-        case 'בית' : {
-            return '/home';
-        } 
-        case 'קצת עלינו': {
-            return 'about-us';
-        }
-        case 'מפה': {
-            return '/map';
-        }
-        case 'שאלון': {
-            return '/survey';
-        }
-        default: {
-            return '/home'
-        }
+      case t('home') : {
+        return '/home';
+      }
+      case t('about us'): {
+        return '/about-us';
+      }
+      case t('map'): {
+        return '/map';
+      }
+      case t('survey'): {
+        return '/survey';
+      }
+      case t('contact us'): {
+        return '/contact-us';
+      }
+      default: {
+        return '/home'
+      }
     }
-}
-
-function getPathFromEnglish(str) {
-    let splitStr = str.toLowerCase().split(' ');
-    
-    for (let i = 0; i < splitStr.length; i++) {
-        splitStr[i] = splitStr[i].charAt(0).toLowerCase() + splitStr[i].substring(1);     
-    }
-
-    return '/'.concat(splitStr.join('-')); 
-}
-
-function getPath(str, lan) {
-    return lan === 'English' ? getPathFromEnglish(str) : getPathFromHebrew(str);
 }
 
 const SideDrawer = (props) => {

@@ -14,6 +14,7 @@ import Crossmark from './Crossmark/Crossmark';
 import Questions from './Questions/Questions';
 import Submit from './Submit/Submit';
 import Header from './Header/Header';
+import { props } from "bluebird";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Survey ({ history, t, onChnageScreen }) {
+function Survey ({ history, t, onChnageScreen, leftToRight }) {
   const classes = useStyles();
   const {
     inputs,
@@ -135,13 +136,30 @@ function Survey ({ history, t, onChnageScreen }) {
         <Box className={classes.container}>
           <Header t={t} />
           <form className={classes.form}>
-            <Questions inputs={inputs} handleSliderChange={handleSliderChange} handleCheckBoxChange={handleCheckBoxChange}/>
-            <Submit isConfirmed={isConfirmed} handleConfirm={handleConfirm} t={t} handleSubmit={handleSubmit}/>
+            <Questions 
+              inputs={inputs} 
+              handleSliderChange={handleSliderChange} 
+              handleCheckBoxChange={handleCheckBoxChange}
+              leftToRight={leftToRight}
+            />
+            <Submit 
+              isConfirmed={isConfirmed} 
+              handleConfirm={handleConfirm} 
+              handleSubmit={handleSubmit}
+              leftToRight={leftToRight}
+              t={t} 
+            />
           </form>
         </Box>
       }
     </Box>
   );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    leftToRight: state.leftToRight
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -150,4 +168,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withNamespaces()(withMenu(Survey)))
+export default connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(withMenu(Survey)))

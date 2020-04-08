@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const Questions = ({ t, handleCheckBoxChange, handleSliderChange, inputs }) => {
+const Questions = ({ t, handleCheckBoxChange, handleSliderChange, inputs, leftToRight }) => {
     const classes = useStyles();
     const questions = getQuestions(t);
 
@@ -22,7 +22,7 @@ const Questions = ({ t, handleCheckBoxChange, handleSliderChange, inputs }) => {
             {
                 questions.map(({ body, type, name }) =>
                     <Box key={name}>
-                        <Question type={type} body={body} name={name}>
+                        <Question type={type} body={body} name={name} leftToRight={leftToRight}>
                         {
                             type === 'rate' ?
                             <RateSlider name={name} onChange={handleSliderChange}/>
@@ -31,6 +31,7 @@ const Questions = ({ t, handleCheckBoxChange, handleSliderChange, inputs }) => {
                                         onChange={handleCheckBoxChange}
                                         options={[ t('no'), t('yes') ]}
                                         selectedOptions={[ (inputs[name] ? t('yes') : t('no')) ]}
+                                        leftToRight={leftToRight}
                             />
                         }
                         </Question>
