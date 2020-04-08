@@ -1,10 +1,9 @@
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import React from "react";
-import i18n from '../../../i18n';
 
-export const ConfirmSurvey = ({ isConfirmed, handleConfirm, t }) =>
+export const ConfirmSurvey = ({ isConfirmed, handleConfirm, t, leftToRight }) =>
   <FormControlLabel
-  labelPlacement={i18n.language === 'Hebrew' ? 'start' : 'end'}
+  labelPlacement={leftToRight ? 'end' : 'start'}
     control={
       <Checkbox
         checked={isConfirmed}

@@ -1,16 +1,15 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
-import i18n from '../../../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   blueLipsQuestion: {
     display: 'flex',
     alignItems: 'center',
   },
-  hebrewContainer: {
+  rightToLeftContainer: {
     flexDirection: 'row-reverse'
   },
-  hebrewText: {
+  rightToLeft: {
     display: 'flex',
     flexDirection: 'row-reverse',
     marginLeft: '2vw',
@@ -20,16 +19,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const Question = ({ body, children, type, name }) => {
+export const Question = ({ body, children, name, leftToRight }) => {
   const classes = useStyles();
   const questionStyle = [ classes.question ];
 
-  if (name === 'blueLips') questionStyle.push(classes.blueLipsQuestion);
-  if (i18n.language === 'Hebrew') questionStyle.push(classes.hebrewContainer);
+  if (name === 'blueLips') {
+    questionStyle.push(classes.blueLipsQuestion)
+  };
+  if (!leftToRight) {
+    console.log('in not leftToRight');
+    questionStyle.push(classes.rightToLeftContainer)
+  };
 
   return (
     <div className={questionStyle.join(' ')}>
-      <p className={i18n.language === 'Hebrew' ? classes.hebrewText : null}>{body}</p>
+      <p className={leftToRight ? null : classes.rightToLeft}>{body}</p>
       {children}
     </div>
   );

@@ -16,6 +16,8 @@ import englandFlag from '../../../assets/images/england.png';
 import israelFlag from '../../../assets/images/israel.jpg';
 import russiaFlag from '../../../assets/images/russia-flag.png';
 import portogalFlag from '../../../assets/images/portugal-flag.jpg';
+import egyptFlag from '../../../assets/images/egypt-flag.png';
+import franchFlag from '../../../assets/images/franch-flag.png';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -80,6 +82,10 @@ const LanguageFlag = (props) => {
                 return portogalFlag;
             case 'Russian':
                 return russiaFlag;
+            case 'Arabic':
+                return egyptFlag;
+            case 'Franch': 
+                return franchFlag;
         }
     }
 
@@ -91,6 +97,8 @@ const LanguageFlag = (props) => {
                     <MenuItem value="Hebrew">עברית</MenuItem>
                     <MenuItem value="Portuguese">Portuguesa</MenuItem>
                     <MenuItem value="Russian">русский</MenuItem>
+                    <MenuItem value="Arabic">عربى</MenuItem>
+                    <MenuItem value="Franch">Le français</MenuItem>
                 </Select>
             </FormControl>
             <Avatar src={getFlag(props.lan)} className={classes.languageFlag}></Avatar>
