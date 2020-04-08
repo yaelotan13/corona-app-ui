@@ -10,11 +10,10 @@ import { useForm } from "../../hooks";
 import { surveyService } from "../../services";
 import withMenu from '../../hoc/withMenu/withMenu';
 import Spinner from '../shared/Spinner/Spinner';
-import ErrorMessage from '../shared/ErrorMessage/ErrorMessage';
-import Crossmark from './Crossmark/Crossmark';
 import Questions from './Questions/Questions';
 import Submit from './Submit/Submit';
 import Header from './Header/Header';
+import ServerError from '../shared/ServerError/ServerError';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +60,6 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
   const [ loading, setLoading ] = useState(false);
   const [ hasFetchingError, setHasFetchingError ] = useState(false);
   const [ formSuccess, setFormSuccess ] = useState(false);
-  const [ unhothorized, setUnhothorized ] = useState(false);
 
   async function onSubmit () {
     try {
@@ -73,14 +71,8 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
       }
     } catch (error) {
       console.log(error);
-      console.log(error.response);
-      if (error.response.status === 401) {
-        setLoading(false);
-        setUnhothorized(true);
-      } else {
-        setLoading(false);
-        setHasFetchingError(true);
-      }
+      setLoading(false);
+      setHasFetchingError(true);
     }
   }
 
@@ -98,27 +90,12 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
       </Box>
     )
   }
-
-  const showFilureCheckmark = () => {
-    setTimeout(() => {
-      setFormSuccess(true);
-      onChnageScreen('Map');
-      history.push('/map');
-    }, 2000);
-
-    return (
-      <Box>
-        <Crossmark />
-        <Typography className={classes.successContent}>{t('submission failure')}</Typography>
-      </Box>
-    )
-  }
   
   return (
     <Box>
       {
         hasFetchingError ?
-        <ErrorMessage t={t} />
+        <ServerError t={t} />
         :
         loading ?
         <Spinner />
@@ -126,11 +103,6 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
         formSuccess ?
         <Box className={classes.centerContainer}>
           {showSuccessCheckmark()}
-        </Box>
-        :
-        unhothorized ?
-        <Box className={classes.centerContainer}>
-          {showFilureCheckmark()}
         </Box>
         :
         <Box className={classes.container}>

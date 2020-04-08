@@ -12,7 +12,7 @@ import Home from './Components/Home/Home';
 import AboutUs from './Components/AboutUs/AboutUs';
 import Survey from './Components/Survey/Survey';
 import Map from './Components/Map/Map';
-import NotFound404 from './Components/NotFound/NotFound404';
+import NotFound404 from './Components/shared/NotFound/NotFound404';
 
 import theme from './theme/index';
 

@@ -7,7 +7,7 @@ import translationHE from './locales/hebrew/translation.json';
 import translationRU from './locales/russian/translation.json';
 import translationPO from './locales/portuguese/translation.json';
 import translationAR from './locales/arabic/translation.json';
-import translationFR from './locales/franch/translation.json';
+import translationFR from './locales/french/translation.json';
 
 const resources = {
   English: {

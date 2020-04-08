@@ -27,6 +27,8 @@
     "temp": "Sua temperatura atualizada:",
     "confirm survey": "Eu respondi a essa pesquisa honestamente",
     "send": "Enviar",
-    "fetching error": "Ooops, alguma coisa deu errado",
-    "submission success": "Sua pesquisa foi enviada com sucesso"
+    "fetching error": "Ooops! alguma coisa deu errado",
+    "fetching error content": "não é você, somos nós ..\nNossa equipe está trabalhando para resolver esse problema. Tente novamente mais tarde.",
+    "submission success": "Sua pesquisa foi enviada com sucesso",
+    "go home": "Retorna"
 }
