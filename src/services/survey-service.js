@@ -30,6 +30,7 @@ export async function sendSurvey (surveyInputs) {
 
   console.log(`after got data`);
   console.log(data);
+  console.log(`sending HTTP to: ${API_URL}`);
   return await axios.post(
     `${API_URL}/patients`,
     data
