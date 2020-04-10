@@ -16,20 +16,12 @@ export function getPinColor(healthStatus) {
 }
 
 export async function getPatientsLocations(location) {
-    const params = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-        radius: _defaultRadius,
-    };
-    const options = {
-        withCredentials: true
-    };
-
     console.log('sending data');
+    console.log(location);
     return await axios.get(`${API_URL}/patients`, { 
         params: {
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: location.lat,
+            longitude: location.lng,
             radius: _defaultRadius, 
         }
      });

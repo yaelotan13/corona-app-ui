@@ -9,12 +9,13 @@ import { withNamespaces } from 'react-i18next';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { withRouter } from 'react-router-dom';
+import { DeviceUUID } from "device-uuid";
 
 import withMenu from '../../hoc/withMenu/withMenu';
 import { GOOGLE_API_KEY } from "../../config";
 import { mapService } from '../../services'
 import Spinner from '../shared/Spinner/Spinner';
-
+import useLocation from '../../hooks/useLocation';
 
 const useStyles = makeStyles({
     spinner: {
@@ -26,55 +27,37 @@ const useStyles = makeStyles({
 const Map = ({ history }) => { 
     const classes = useStyles();
     const [ userLocation, setUserLocation ] = useState({
-        latitude: 32.0965791,
-        longitude: 34.7831877
+        lat: 32.0965791,
+        lng: 34.7831877
     })
-
+    const [ userLocationError, location] = useLocation();
     const [ loading, setLoading ] = useState(false);
     const [ hasFetchingError, setHasFetchingError ] = useState(false);
     const [ pateints, setPatients ] = useState([]);
 
     useEffect(() => {
-        setLoading(true);
-        navigator.geolocation.getCurrentPosition(
-            async position => {
-                const {latitude, longitude} = position.coords;
-                const location = {longitude, latitude};
-                try {
-                    const response = await mapService.getPatientsLocations(location);
-                    let patients = response.data;
-                    const userId = localStorage.getItem('id');
-                    if (userId) {
-                        patients = response.data.filter(patient => patient.id !== userId)
+        if (!userLocationError) {
+            setLoading(true);
+            if (Object.keys(location).length !== 0 && location.constructor === Object) {
+                (async () => {
+                    try {
+                        const response = await mapService.getPatientsLocations(location);
+                        const deviceUid = new DeviceUUID().get();
+                        const filteredPatients = response.data.filter(patient => patient.id !== deviceUid);
+                        setPatients(filteredPatients);
+                        setUserLocation(location);
+                    } catch (error) {
+                        console.log(error);
+                        setHasFetchingError(true);
                     }
-                    
-                    setPatients(patients);
-
-                } catch (error) {
-                    console.log(error);
-                    setHasFetchingError(true);
-                }
-
-                setUserLocation({
-                    lat: latitude,
-                    lng: longitude
-                })
-                setLoading(false);
-            },
-            (error) => {
-                console.log(error);
-                setLoading(false);
-                setHasFetchingError(true);
-            }, {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            })
-    }, []);  
+                })();
+            }
+            setLoading(false);  
+        }
+    }, [location])
 
     const renderServerError = () => {
         history.push('/error');
-        return null;
     }
 
     return (
