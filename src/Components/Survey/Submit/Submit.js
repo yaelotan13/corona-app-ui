@@ -23,7 +23,7 @@ const Submit = (props) => {
 
     return (
         <Box className={classes.submitArea}>
-            <ConfirmSurvey isConfirmed={props.isConfirmed} handleConfirm={props.handleConfirm} t={props.t}/>
+            <ConfirmSurvey isConfirmed={props.isConfirmed} handleConfirm={props.handleConfirm} t={props.t} leftToRight={props.leftToRight}/>
             <SubmitButton isConfirmed={props.isConfirmed} handleSubmit={props.handleSubmit} t={props.t}/>
         </Box>
     );
