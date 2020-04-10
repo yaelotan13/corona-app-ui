@@ -14,6 +14,7 @@ import Questions from './Questions/Questions';
 import Submit from './Submit/Submit';
 import Header from './Header/Header';
 import ServerError from '../shared/ServerError/ServerError';
+import useLocation from '../../hooks/useLocation';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
 
 function Survey ({ history, t, onChnageScreen, leftToRight }) {
   const classes = useStyles();
+  const [ hasError, location ] = useLocation();
+  console.log('location');
+  console.log(location);
   const {
     inputs,
     isConfirmed,
@@ -64,7 +68,7 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
   async function onSubmit () {
     try {
       setLoading(true);
-      const result = await surveyService.sendSurvey(inputs);
+      const result = await surveyService.sendSurvey(inputs, location);
       if (result.status === 200) {
         setLoading(false);
         setFormSuccess(true);
