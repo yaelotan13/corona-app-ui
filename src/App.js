@@ -13,6 +13,7 @@ import AboutUs from './Components/AboutUs/AboutUs';
 import Survey from './Components/Survey/Survey';
 import Map from './Components/Map/Map';
 import NotFound404 from './Components/shared/NotFound/NotFound404';
+import ServerError from './Components/shared/ServerError/ServerError';
 
 import theme from './theme/index';
 
@@ -26,6 +27,7 @@ function App({ t }) {
           <Route path="/about-us" component={AboutUs}/>
           <Route path="/survey" component={Survey}/>
           <Route path="/map" component={Map}/>
+          <Route exact path="/error" component={() => <ServerError t={t}/>}/>
           <Route component={NotFound404}/>
         </Switch>
       </ThemeProvider>
