@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import withMenu from '../../../hoc/withMenu/withMenu';
 import img from '../../../assets/images/clean.jpg'
 
 const useStyles = makeStyles((theme) => ({
@@ -79,4 +80,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ServerError));
+export default connect(mapStateToProps)(withRouter(withMenu(ServerError)));

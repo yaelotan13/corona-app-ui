@@ -8,11 +8,11 @@ import {
 import { withNamespaces } from 'react-i18next';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { withRouter } from 'react-router-dom';
 
 import withMenu from '../../hoc/withMenu/withMenu';
 import { GOOGLE_API_KEY } from "../../config";
 import { mapService } from '../../services'
-import ServerError from '../shared/ServerError/ServerError';
 import Spinner from '../shared/Spinner/Spinner';
 
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Map = ({ t }) => { 
+const Map = ({ history }) => { 
     const classes = useStyles();
     const [ userLocation, setUserLocation ] = useState({
         latitude: 32.0965791,
@@ -72,6 +72,11 @@ const Map = ({ t }) => {
             })
     }, []);  
 
+    const renderServerError = () => {
+        history.push('/error');
+        return null;
+    }
+
     return (
         <Box>
             {   
@@ -79,7 +84,7 @@ const Map = ({ t }) => {
                 <Spinner className={classes.spinner} />
                 :
                 hasFetchingError ? 
-                <ServerError t={t}/>
+                renderServerError()
                 :
                 <GoogleMap
                     zoom={10}
@@ -117,7 +122,7 @@ const style = {
   height: '100vh'
 };
 
-const MapContainer = () => (
+const MapContainer = (props) => (
   <Box style={style}>
     {
         <WrappedMap
@@ -125,12 +130,13 @@ const MapContainer = () => (
                 `https://maps.googleapis.com/maps/api/js?v=3.40&key=${GOOGLE_API_KEY}`
             }
     
-            loadingElement={<Spinner />}
+            loadingElement={<Box style={{height: '100%'}}/>}
             containerElement={<Box style={{height: '100%'}}/>}
             mapElement={<Box style={{height: '100%'}}/>}
+            {...props}
         />
     }
   </Box>
 );
 
-export default withNamespaces()(withMenu(MapContainer))
+export default withRouter(withNamespaces()(withMenu(MapContainer)))
