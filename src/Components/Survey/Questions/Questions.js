@@ -39,7 +39,7 @@ const Questions = ({ t, handleCheckBoxChange, handleSliderChange, inputs, leftTo
                 )
             }
             <Box className={classes.temp}>
-                <Question body={t('temp')}>
+                <Question body={t('temp')} leftToRight={leftToRight}>
                     <TemperatureSlider name="temperature" onChange={handleSliderChange} />
                 </Question>
           </Box>
