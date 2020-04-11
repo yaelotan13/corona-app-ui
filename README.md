@@ -35,10 +35,5 @@ Daniel Soifer
 
 Adi Peretz
 
-Nir Shidlansik
-
-Vladimir Kraykin
-
-Ran Shieber
    
   
