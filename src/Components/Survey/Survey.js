@@ -21,14 +21,20 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     margin: '0 0 8vh',
     position: 'relative',
-    padding: 30,
     paddingTop: 100,
+  },
+  headline: {
+    display: 'flex'
+  },
+  rightToLeft: {
+    flexDirection: 'row-reverse'
   },
   form: {
     height: '100%',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    marginTop: '15vh',
     [theme.breakpoints.between('sm', 'xl')]: {
       width: '40%',
     },
@@ -112,6 +118,9 @@ function Survey ({ history, t, onChnageScreen, leftToRight }) {
         <Box className={classes.container}>
           <Header t={t} />
           <form className={classes.form}>
+            <Typography className={leftToRight ? classes.headline : [ classes.headline, classes.rightToLeft].join(' ')} variant="h5">
+                {t('survey intro')}
+            </Typography>
             <Questions 
               inputs={inputs} 
               handleSliderChange={handleSliderChange} 

@@ -20,7 +20,8 @@ const useStyle = makeStyles((theme) => ({
         flexDirection: 'column',
         textAlign: 'center',
         padding: '8vh',
-        marginTop: '5vh',
+        marginTop: '8vh',
+        color: theme.typography.overline.color,
     },
     imgContainer: {
         height: '100vh',
@@ -36,7 +37,7 @@ const useStyle = makeStyles((theme) => ({
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         [theme.breakpoints.between('lg', 'xl')]: {
-            height: '100%',
+            height: '90%',
             width: '100%',
         },
         [theme.breakpoints.between('sm', 'md')]: {
@@ -48,6 +49,10 @@ const useStyle = makeStyles((theme) => ({
             width: '100%',
         }
     }, 
+    mainHeadline: {
+        fontSize: 40,
+        color: theme.palette.warning.main
+    },
     aboutUs: {
         lineHeight: '30px',
         [theme.breakpoints.between('sm', 'xl')]: {
@@ -96,7 +101,7 @@ const AboutUs = ({ t }) => {
         <Grid container>
             <Grid xs={12} lg={6}>
                 <Box className={classes.content}>
-                    <Typography variant="h2">{t('about us')}</Typography>
+                    <Typography  className={classes.mainHeadline} variant="h2">{t('about us')}</Typography>
                     <Typography className={classes.aboutUs}>{t('about us description')}</Typography>
                     <Typography className={classes.contactUs}>{t('if you have questions')}</Typography>
                     <Box className={classes.emailContainer}>

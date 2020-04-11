@@ -12,10 +12,9 @@ const useStyles = makeStyles((theme) => ({
   rightToLeft: {
     display: 'flex',
     flexDirection: 'row-reverse',
-    marginLeft: '2vw',
   },
   question: {
-    marginTop: 70,
+    marginTop: 40,
   }
 }));
 
@@ -27,7 +26,6 @@ export const Question = ({ body, children, name, leftToRight }) => {
     questionStyle.push(classes.blueLipsQuestion)
   };
   if (!leftToRight) {
-    console.log('in not leftToRight');
     questionStyle.push(classes.rightToLeftContainer)
   };
 

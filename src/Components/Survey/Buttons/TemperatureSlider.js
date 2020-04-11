@@ -5,11 +5,7 @@ import UnitRadioGroup from "./UnitRadioGroup";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '90%',
-  },
-  margin: {
-    height: theme.spacing(3),
-    left: 5
+    width: '100%',
   },
 }));
 
@@ -63,7 +59,7 @@ export default function TemperatureSlider({name, onChange}) {
   return (
     <div className={classes.root}>
       <Slider
-        defaultValue={0}
+        defaultValue={selectedUnit === 'F' ? 98.2 : 36.8}
         aria-labelledby="discrete-slider-custom"
         step={0.1}
         valueLabelDisplay="auto"
