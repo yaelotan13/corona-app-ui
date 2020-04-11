@@ -11,11 +11,7 @@ npm install
 
 To start the app, you need to have the corona-app server working.
 
-You can either:
-
-1 - use the production server: use npm start NODE_ENV=production 
-
-2 - use a localhost server by following these steps: 
+use a localhost server by following these steps: 
    - clone/download the corona-app-server 
    - navigate the the corona-app-server directory
    - install it's dependencies: npm install
