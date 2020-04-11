@@ -32,7 +32,7 @@ Travis CI
 
 Material UI
 
-# Autors
+# Authors
 This app is based on a group app made with the awsomes:
 
 Daniel Soifer
