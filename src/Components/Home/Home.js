@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         height: '100%',
         padding: '5vw',
+        [theme.breakpoints.down('xs')]: {
+            marginTop: '3vh',
+        }
     },
     header: {
         fontFamily: theme.typography.h1.fontFamily,
