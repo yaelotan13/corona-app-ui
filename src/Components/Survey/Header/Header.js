@@ -1,8 +1,22 @@
-import React, { Fragment } from 'react';
-import { Typography } from '@material-ui/core';
+import React from 'react';
+import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles({
+import img from '../../../assets/images/fight.jpg'
+
+const useStyles = makeStyles((theme) => ({
+    header: {
+        height: '50vh',
+        width: '100vw',
+        backgroundImage: `url(${img})`,
+        backgroundSize: '50%',
+        backgroundPosition:'center',
+        backgroundRepeat: 'no-repeat',
+        [theme.breakpoints.down('xs')]: {
+            backgroundSize: '90%',
+            height: '30vh',
+        }
+    },
     mainHeadline: {
         textAlign: 'center',
         marginBottom: 16,
@@ -11,20 +25,20 @@ const useStyles = makeStyles({
         textAlign: 'center',
         marginBottom: 30,
       },
-});
+}));
 
 const Header = (props) => {
     const classes = useStyles();
 
     return (
-        <Fragment>
+        <Box className={classes.header}>
             <Typography className={classes.mainHeadline} variant="h3">
                 {props.t('survey header')}
             </Typography>
-            <Typography className={classes.headline} variant="h5">
+            {/* <Typography className={classes.headline} variant="h5">
                 {props.t('survey intro')}
-            </Typography>
-        </Fragment>
+            </Typography> */}
+        </Box>
     );
 };
 

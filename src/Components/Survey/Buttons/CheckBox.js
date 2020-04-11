@@ -4,7 +4,7 @@ import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   checkboxContainer: {
-    marginLeft: 16,
+    margin: '0 16px',
     display: 'flex',
   },
   label: {

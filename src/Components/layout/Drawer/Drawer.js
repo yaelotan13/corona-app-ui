@@ -33,14 +33,9 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     coronaHeadline: {
-        backgroundColor: 'grey',
-        fontFamily: "'Teko', sans-serif';",
+        backgroundColor: 'orange',
         fontSize: 24,
         textAligh: 'center',
-    },
-    headline: {
-        fontFamily: "'Teko', sans-serif';",
-        fontSize: 24,
     },
     item: {
         color: 'orange',
@@ -85,7 +80,7 @@ const SideDrawer = (props) => {
                     <Box className={classes.listContainer} onClick={props.close}>
                         <List className={classes.list}>
                             <ListItem className={classes.coronaHeadline} divider>
-                                <ListItemText className={classes.headline} primary="CORONA HOT MAP"/>
+                                <ListItemText primary="CORONA HOT MAP" />
                             </ListItem>
                             {
                                 listItems.map((text, index) => (

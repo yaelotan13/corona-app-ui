@@ -12,7 +12,7 @@ export default function UnitRadioGroup({onChange, selectedUnit}) {
         onChange={onChange}
         checked={selectedUnit === 'C'}
       />
-          <FormControlLabel
+      <FormControlLabel
         value="F"
         control={<Radio color="primary" />}
         label="°F"
