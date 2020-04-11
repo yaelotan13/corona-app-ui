@@ -23,9 +23,13 @@ You can either:
    - in the corona-app-ui directory, start the app using the command: npm start
    
 # Build with 
+
 React.JS 
+
 CypressJS
+
 Travis CI
+
 Material UI
 
 # Autors
